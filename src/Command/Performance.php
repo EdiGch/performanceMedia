@@ -8,6 +8,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use App\Services\performanceMedia\PerformanceMediaServices;
 
 
 class Performance extends Command
@@ -18,11 +19,16 @@ class Performance extends Command
      * @var EntityManagerInterface
      */
     private $em;
+    /**
+     * @var PerformanceMediaServices
+     */
+    private $performanceMediaServices;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, PerformanceMediaServices $performanceMediaServices)
     {
         $this->em = $em;
         parent::__construct();
+        $this->performanceMediaServices = $performanceMediaServices;
     }
 
     protected function configure()
@@ -48,7 +54,7 @@ class Performance extends Command
                 case 'z':
                     $sm->title('saving data from a file to a record database');
                     try {
-                        echo 'starting the method';
+                        $message = $this->performanceMediaServices->savingDataFromFileToDatabase();
 
                     } catch (Exception $e) {
                         $message = $e->getCode() . ' - ' . $e->getMessage();
