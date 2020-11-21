@@ -1,0 +1,1 @@
+We run the command with the command ```php bin/console  app:Performance:sas```
